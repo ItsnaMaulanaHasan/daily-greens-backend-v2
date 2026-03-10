@@ -1,5 +1,13 @@
-import { Column, DataType, Default, Model, Table } from "sequelize-typescript";
+import {
+  Column,
+  DataType,
+  Default,
+  HasOne,
+  Model,
+  Table,
+} from "sequelize-typescript";
 import { v4 as uuidv4 } from "uuid";
+import { Profile } from "./profile.model";
 
 @Table({
   tableName: "users",
@@ -43,4 +51,9 @@ export class User extends Model {
     field: "Updated_by",
   })
   declare updatedBy: string;
+
+  // relations
+
+  @HasOne(() => Profile)
+  declare profile: Profile;
 }
