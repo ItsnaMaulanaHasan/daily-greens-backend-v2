@@ -55,6 +55,7 @@ export class Profile extends Model {
   })
   declare phoneNumber: string;
 
+  // relations
   @BelongsTo(() => User)
   declare user: User;
 }
