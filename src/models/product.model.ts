@@ -33,10 +33,16 @@ export class Product extends Model {
 
   @Column({
     type: DataType.DECIMAL(5, 2),
-    field: "discount_price",
+    field: "discount_percent",
     defaultValue: 0,
   })
-  declare discountPrice: number;
+  declare discountPercent: number;
+
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  declare stock: number;
 
   @Column({
     type: DataType.DECIMAL(2, 1),
@@ -50,6 +56,12 @@ export class Product extends Model {
     defaultValue: false,
   })
   declare isFlashSale: boolean;
+
+  @Column({
+    type: DataType.BOOLEAN,
+    field: "is_active",
+  })
+  declare isActive: boolean;
 
   // relations
 }
