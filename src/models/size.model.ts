@@ -15,7 +15,7 @@ export class Size extends Model {
   declare id: number;
 
   @Column({
-    type: DataType.STRING(20),
+    type: DataType.STRING(50),
     unique: true,
   })
   declare name: string;
