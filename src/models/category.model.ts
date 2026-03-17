@@ -30,8 +30,6 @@ export class Category extends Model {
   })
   declare name: string;
 
-  // relations
-
   @ForeignKey(() => User)
   @Column({
     type: DataType.UUID,
@@ -55,6 +53,8 @@ export class Category extends Model {
     field: "deleted_by",
   })
   declare deletedBy: string;
+
+  // relations
 
   @BelongsTo(() => User, "created_by")
   declare creator: User;
