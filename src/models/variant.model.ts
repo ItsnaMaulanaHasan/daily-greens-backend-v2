@@ -1,10 +1,20 @@
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import {
+  BelongsTo,
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+} from "sequelize-typescript";
+import { User } from "./user.model";
 
 @Table({
   tableName: "variants",
   timestamps: true,
   createdAt: "created_at",
   updatedAt: "updated_at",
+  paranoid: true,
+  deletedAt: "deleted_at",
 })
 export class Variant extends Model {
   @Column({
@@ -27,5 +37,38 @@ export class Variant extends Model {
   })
   declare variantCost: number;
 
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.UUID,
+    allowNull: true,
+    field: "created_by",
+  })
+  declare createdBy: string;
+
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.UUID,
+    allowNull: true,
+    field: "updated_by",
+  })
+  declare updatedBy: string;
+
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.UUID,
+    allowNull: true,
+    field: "deleted_by,",
+  })
+  declare deletedBy: string;
+
   // relations
+
+  @BelongsTo(() => User, "created_by")
+  declare creator: User;
+
+  @BelongsTo(() => User, "updated_by")
+  declare updater: User;
+
+  @BelongsTo(() => User, "deleted_by")
+  declare deleter: User;
 }

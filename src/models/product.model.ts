@@ -15,6 +15,8 @@ import { User } from "./user.model";
   timestamps: true,
   createdAt: "created_at",
   updatedAt: "updatedAt",
+  paranoid: true,
+  deletedAt: "deleted_at",
 })
 export class Product extends Model {
   @Column({
