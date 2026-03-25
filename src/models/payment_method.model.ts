@@ -1,10 +1,20 @@
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import {
+  BelongsTo,
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+} from "sequelize-typescript";
+import { User } from "./user.model";
 
 @Table({
   tableName: "payment_methods",
   timestamps: true,
   createdAt: "created_at",
   updatedAt: "updated_at",
+  paranoid: true,
+  deletedAt: "deleted_at",
 })
 export class PaymentMethod extends Model {
   @Column({
@@ -27,5 +37,38 @@ export class PaymentMethod extends Model {
   })
   declare adminFee: number;
 
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.UUID,
+    allowNull: true,
+    field: "created_by",
+  })
+  declare createdBy: User;
+
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.UUID,
+    allowNull: true,
+    field: "updated_by",
+  })
+  declare updatedBy: string;
+
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.UUID,
+    allowNull: true,
+    field: "deleted_by",
+  })
+  declare deletedBy: string;
+
   // relations
+
+  @BelongsTo(() => User)
+  declare creator: User;
+
+  @BelongsTo(() => User)
+  declare updater: User;
+
+  @BelongsTo(() => User)
+  declare deleter: User;
 }

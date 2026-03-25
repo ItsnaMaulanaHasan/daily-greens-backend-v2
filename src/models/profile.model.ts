@@ -15,6 +15,8 @@ import { User } from "./user.model";
   timestamps: true,
   createdAt: "created_at",
   updatedAt: "updated_at",
+  paranoid: true,
+  deletedAt: "deleted_at",
 })
 export class Profile extends Model {
   @Column({
@@ -55,7 +57,39 @@ export class Profile extends Model {
   })
   declare phoneNumber: string;
 
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.UUID,
+    allowNull: true,
+    field: "created_by",
+  })
+  declare createdBy: string;
+
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.UUID,
+    allowNull: true,
+    field: "updated_by",
+  })
+  declare updatedBy: string;
+
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.UUID,
+    allowNull: true,
+    field: "deleted_by",
+  })
+
   // relations
   @BelongsTo(() => User)
   declare user: User;
+
+  @BelongsTo(() => User)
+  declare creator: User;
+
+  @BelongsTo(() => User)
+  declare updater: User;
+
+  @BelongsTo(() => User)
+  declare deleter: User;
 }

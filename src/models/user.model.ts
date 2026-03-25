@@ -1,7 +1,9 @@
 import {
+  BelongsTo,
   Column,
   DataType,
   Default,
+  ForeignKey,
   HasOne,
   Model,
   Table,
@@ -14,6 +16,8 @@ import { Profile } from "./profile.model";
   timestamps: true,
   createdAt: "created_at",
   updatedAt: "updated_at",
+  paranoid: true,
+  deletedAt: "deleted_at",
 })
 export class User extends Model {
   @Column({
@@ -40,20 +44,39 @@ export class User extends Model {
   })
   declare password: string;
 
+  @ForeignKey(() => User)
   @Column({
     type: DataType.UUID,
+    allowNull: true,
     field: "created_by",
   })
   declare createdBy: string;
 
+  @ForeignKey(() => User)
   @Column({
     type: DataType.UUID,
+    allowNull: true,
     field: "Updated_by",
   })
   declare updatedBy: string;
 
-  // relations
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.UUID,
+    allowNull: true,
+    field: "deleted_by",
+  })
 
+  // relations
   @HasOne(() => Profile)
   declare profile: Profile;
+
+  @BelongsTo(() => User)
+  declare creator: User;
+
+  @BelongsTo(() => User)
+  declare updater: User;
+
+  @BelongsTo(() => User)
+  declare deleter: User;
 }
