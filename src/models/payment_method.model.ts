@@ -63,12 +63,12 @@ export class PaymentMethod extends Model {
 
   // relations
 
-  @BelongsTo(() => User)
+  @BelongsTo(() => User, "created_by")
   declare creator: User;
 
-  @BelongsTo(() => User)
+  @BelongsTo(() => User, "updated_by")
   declare updater: User;
 
-  @BelongsTo(() => User)
+  @BelongsTo(() => User, "deleted_by")
   declare deleter: User;
 }

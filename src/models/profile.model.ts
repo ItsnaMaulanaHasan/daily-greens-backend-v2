@@ -81,15 +81,15 @@ export class Profile extends Model {
   })
 
   // relations
-  @BelongsTo(() => User)
+  @BelongsTo(() => User, "user_id")
   declare user: User;
 
-  @BelongsTo(() => User)
+  @BelongsTo(() => User, "created_by")
   declare creator: User;
 
-  @BelongsTo(() => User)
+  @BelongsTo(() => User, "updated_by")
   declare updater: User;
 
-  @BelongsTo(() => User)
+  @BelongsTo(() => User, "deleted_by")
   declare deleter: User;
 }
