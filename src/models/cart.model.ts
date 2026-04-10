@@ -1,4 +1,5 @@
 import {
+  BelongsTo,
   Column,
   DataType,
   Default,
@@ -66,4 +67,51 @@ export class Cart extends Model {
   })
   @Default(0)
   declare subtotal: number;
+
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.UUID,
+    allowNull: true,
+    field: "created_by",
+  })
+  declare createdBy: string;
+
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.UUID,
+    allowNull: true,
+    field: "updated_by",
+  })
+  declare updatedBy: string;
+
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.UUID,
+    allowNull: true,
+    field: "deleted_by",
+  })
+  declare deletedBy: string;
+
+  // relations
+
+  @BelongsTo(() => User, "user_id")
+  declare user: User;
+
+  @BelongsTo(() => Product, "product_id")
+  declare product: Product;
+
+  @BelongsTo(() => Size, "size_id")
+  declare size: Size;
+
+  @BelongsTo(() => Variant, "variant_id")
+  declare variant: Variant;
+
+  @BelongsTo(() => User, "created_by")
+  declare creator: User;
+
+  @BelongsTo(() => User, "updated_by")
+  declare updater: User;
+
+  @BelongsTo(() => User, "deleted_by")
+  declare deleter: User;
 }
