@@ -4,11 +4,18 @@ import {
   DataType,
   Default,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from "sequelize-typescript";
 import { v4 as uuidv4 } from "uuid";
 import { User } from "./user.model";
+import { Cart } from "./cart.model";
+import { ProductCategory } from "./product_category.model";
+import { ProductImage } from "./product_image.model";
+import { ProductVariant } from "./product_variant.model";
+import { ProductSize } from "./product_size.model";
+import { TransactionItem } from "./transaction_item.model";
 
 @Table({
   tableName: "products",
@@ -43,13 +50,6 @@ export class Product extends Model {
   declare price: number;
 
   @Column({
-    type: DataType.DECIMAL(5, 2),
-    field: "discount_percent",
-    defaultValue: 0,
-  })
-  declare discountPercent: number;
-
-  @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
@@ -60,13 +60,6 @@ export class Product extends Model {
     defaultValue: 5,
   })
   declare rating: number;
-
-  @Column({
-    type: DataType.BOOLEAN,
-    field: "is_flash_sale",
-    defaultValue: false,
-  })
-  declare isFlashSale: boolean;
 
   @Column({
     type: DataType.BOOLEAN,
@@ -108,4 +101,34 @@ export class Product extends Model {
 
   @BelongsTo(() => User, "deleted_by")
   declare deleter: User;
+
+  // Cart
+
+  @HasMany(() => Cart)
+  declare cart: Cart;
+
+  // Product Category
+
+  @HasMany(() => ProductCategory)
+  declare productCategory: ProductCategory[];
+
+  // Product Image
+
+  @HasMany(() => ProductImage)
+  declare productImage: ProductImage[];
+
+  // Product Variant
+
+  @HasMany(() => ProductVariant)
+  declare productVariant: ProductVariant[];
+
+  // Product Size
+
+  @HasMany(() => ProductSize)
+  declare productSize: ProductSize[];
+
+  // TransactionItem
+
+  @HasMany(() => TransactionItem)
+  declare transactionItem: TransactionItem[];
 }

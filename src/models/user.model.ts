@@ -18,6 +18,11 @@ import { Profile } from "./profile.model";
 import { Size } from "./size.model";
 import { Status } from "./status.model";
 import { Variant } from "./variant.model";
+import { Cart } from "./cart.model";
+import { ProductImage } from "./product_image.model";
+import { Transaction } from "./transaction.model";
+import { TransactionItem } from "./transaction_item.model";
+import { PasswordReset } from "./password_reset.model";
 
 @Table({
   tableName: "users",
@@ -77,8 +82,6 @@ export class User extends Model {
   declare deletedBy: string;
 
   // relations
-  @HasOne(() => Profile)
-  declare profile: Profile;
 
   @BelongsTo(() => User, "created_by")
   declare creator: User;
@@ -177,6 +180,10 @@ export class User extends Model {
   declare orderMethodsDeleted: OrderMethod[];
 
   // Profile
+
+  @HasOne(() => Profile)
+  declare profile: Profile;
+
   @HasMany(() => Profile, { foreignKey: "created_by", as: "profilesCreated" })
   declare profilesCreated: Profile[];
 
@@ -195,6 +202,97 @@ export class User extends Model {
 
   @HasMany(() => Status, { foreignKey: "deleted_by", as: "statusesDeleted" })
   declare statusesDeleted: Status[];
+
+  // Cart
+
+  @HasMany(() => Cart)
+  declare cart: Cart[];
+
+  @HasMany(() => Cart, {
+    foreignKey: "created_by",
+    as: "cartCreated",
+  })
+  declare cartCreated: Cart[];
+
+  @HasMany(() => Cart, {
+    foreignKey: "updated_by",
+    as: "cartUpdated",
+  })
+  declare cartUpdated: Cart[];
+
+  @HasMany(() => Cart, {
+    foreignKey: "deleted_by",
+    as: "cartDeleted",
+  })
+  declare cartDeleted: Cart[];
+
+  // Product Image
+
+  @HasMany(() => ProductImage, {
+    foreignKey: "created_by",
+    as: "productImageCreated",
+  })
+  declare productImageCreated: ProductImage[];
+
+  @HasMany(() => ProductImage, {
+    foreignKey: "updated_by",
+    as: "productImageUpdated",
+  })
+  declare productImageUpdated: ProductImage[];
+
+  @HasMany(() => ProductImage, {
+    foreignKey: "deleted_by",
+    as: "productImageDeleted",
+  })
+  declare productImageDeleted: ProductImage[];
+
+  // Transaction
+
+  @HasMany(() => Transaction)
+  declare transaction: Transaction[];
+
+  @HasMany(() => Transaction, {
+    foreignKey: "created_by",
+    as: "transactionCreated",
+  })
+  declare transactionCreated: Transaction[];
+
+  @HasMany(() => Transaction, {
+    foreignKey: "updated_by",
+    as: "transactionUpdated",
+  })
+  declare transactionUpdated: Transaction[];
+
+  @HasMany(() => Transaction, {
+    foreignKey: "deleted_by",
+    as: "transactionDeleted",
+  })
+  declare transactionDeleted: Transaction[];
+
+  // Transaction Item
+
+  @HasMany(() => TransactionItem, {
+    foreignKey: "created_by",
+    as: "transactionItemCreated",
+  })
+  declare transactionItemCreated: TransactionItem[];
+
+  @HasMany(() => TransactionItem, {
+    foreignKey: "updated_by",
+    as: "transactionItemUpdated",
+  })
+  declare transactionItemUpdated: TransactionItem[];
+
+  @HasMany(() => TransactionItem, {
+    foreignKey: "deleted_by",
+    as: "transactionItemDeleted",
+  })
+  declare transactionItemDeleted: TransactionItem[];
+
+  // Password Reset
+
+  @HasMany(() => PasswordReset)
+  declare passwordReset: PasswordReset[];
 
   // Self User (Users created/updated/deleted by this User)
   @HasMany(() => User, { foreignKey: "created_by", as: "usersCreated" })

@@ -3,10 +3,12 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from "sequelize-typescript";
 import { User } from "./user.model";
+import { Transaction } from "./transaction.model";
 
 @Table({
   tableName: "order_method",
@@ -71,4 +73,9 @@ export class OrderMethod extends Model {
 
   @BelongsTo(() => User, "deleted_by")
   declare deleter: User;
+
+  // Transaction
+
+  @HasMany(() => Transaction)
+  declare transaction: Transaction[];
 }

@@ -3,10 +3,12 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from "sequelize-typescript";
 import { User } from "./user.model";
+import { ProductCategory } from "./product_category.model";
 
 @Table({
   tableName: "categories",
@@ -64,4 +66,9 @@ export class Category extends Model {
 
   @BelongsTo(() => User, "deleted_by")
   declare deleter: User;
+
+  // Product Category
+
+  @HasMany(() => ProductCategory)
+  declare productCategory: ProductCategory[];
 }

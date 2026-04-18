@@ -4,6 +4,7 @@ import {
   DataType,
   Default,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from "sequelize-typescript";
@@ -12,6 +13,7 @@ import { OrderMethod } from "./order_method.model";
 import { PaymentMethod } from "./payment_method.model";
 import { Status } from "./status.model";
 import { User } from "./user.model";
+import { TransactionItem } from "./transaction_item.model";
 
 @Table({
   tableName: "transactions",
@@ -153,12 +155,6 @@ export class Transaction extends Model {
   @BelongsTo(() => User, "user_id")
   declare user: User;
 
-  @BelongsTo(() => PaymentMethod, "payment_method_id")
-  declare paymentMethod: PaymentMethod;
-
-  @BelongsTo(() => OrderMethod, "order_method_id")
-  declare orderMethod: OrderMethod;
-
   @BelongsTo(() => Status, "status_id")
   declare status: Status;
 
@@ -170,4 +166,19 @@ export class Transaction extends Model {
 
   @BelongsTo(() => User, "deleted_by")
   declare deleter: User;
+
+  // Payment Method
+
+  @BelongsTo(() => PaymentMethod, "payment_method_id")
+  declare paymentMethod: PaymentMethod;
+
+  // Order Method
+
+  @BelongsTo(() => OrderMethod, "order_method_id")
+  declare orderMethod: OrderMethod;
+
+  // Transaction Item
+
+  @HasMany(() => TransactionItem)
+  declare transactionItem: TransactionItem[];
 }

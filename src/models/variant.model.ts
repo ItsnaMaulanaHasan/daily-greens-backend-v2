@@ -3,10 +3,13 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from "sequelize-typescript";
 import { User } from "./user.model";
+import { Cart } from "./cart.model";
+import { ProductVariant } from "./product_variant.model";
 
 @Table({
   tableName: "variants",
@@ -71,4 +74,14 @@ export class Variant extends Model {
 
   @BelongsTo(() => User, "deleted_by")
   declare deleter: User;
+
+  // Cart
+
+  @HasMany(() => Cart)
+  declare cart: Cart;
+
+  // Product Variant
+
+  @HasMany(() => ProductVariant)
+  declare productVariant: ProductVariant[];
 }

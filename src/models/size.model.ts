@@ -3,10 +3,13 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from "sequelize-typescript";
 import { User } from "./user.model";
+import { Cart } from "./cart.model";
+import { ProductSize } from "./product_size.model";
 
 @Table({
   tableName: "sizes",
@@ -71,4 +74,14 @@ export class Size extends Model {
 
   @BelongsTo(() => User, "deleted_by")
   declare deleter: User;
+
+  // Cart
+
+  @HasMany(() => Cart)
+  declare cart: Cart;
+
+  // Product Size
+
+  @HasMany(() => ProductSize)
+  declare productSize: ProductSize[];
 }

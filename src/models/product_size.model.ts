@@ -7,12 +7,12 @@ import {
   Table,
 } from "sequelize-typescript";
 import { Product } from "./product.model";
-import { Variant } from "./variant.model";
+import { Size } from "./size.model";
 
 @Table({
-  tableName: "product_variants",
+  tableName: "product_categories",
 })
-export class ProductVariant extends Model {
+export class ProductSize extends Model {
   @Column({
     primaryKey: true,
     type: DataType.INTEGER,
@@ -27,18 +27,18 @@ export class ProductVariant extends Model {
   })
   declare productId: string;
 
-  @ForeignKey(() => Variant)
+  @ForeignKey(() => Size)
   @Column({
     type: DataType.INTEGER,
-    field: "variant_id",
+    field: "size_id",
   })
-  declare variantId: number;
+  declare sizeId: number;
 
   // relations
 
   @BelongsTo(() => Product, "product_id")
   declare product: Product;
 
-  @BelongsTo(() => Variant, "variant_id")
-  declare variant: Variant;
+  @BelongsTo(() => Size, "size_id")
+  declare size: Size;
 }
