@@ -4,6 +4,7 @@ import {
   DataType,
   Default,
   ForeignKey,
+  Index,
   Model,
   Table,
 } from "sequelize-typescript";
@@ -26,6 +27,7 @@ export class ProductImage extends Model {
   })
   declare id: number;
 
+  @Index({ name: "idx_product_images_product_id" })
   @ForeignKey(() => Product)
   @Column({
     type: DataType.UUID,
@@ -72,7 +74,10 @@ export class ProductImage extends Model {
 
   // relations
 
-  @BelongsTo(() => Product, "product_id")
+  @BelongsTo(() => Product, {
+    foreignKey: "product_id",
+    onDelete: "CASCADE",
+  })
   declare product: Product;
 
   @BelongsTo(() => User, "created_by")

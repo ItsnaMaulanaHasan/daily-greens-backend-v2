@@ -5,6 +5,7 @@ import {
   Default,
   ForeignKey,
   HasMany,
+  Index,
   Model,
   Table,
 } from "sequelize-typescript";
@@ -31,6 +32,7 @@ export class Transaction extends Model {
   @Default(uuidv4)
   declare id: string;
 
+  @Index({ name: "idx_transactions_user_id" })
   @ForeignKey(() => User)
   @Column({
     type: DataType.UUID,
@@ -45,6 +47,7 @@ export class Transaction extends Model {
   })
   declare noInvoice: string;
 
+  @Index({ name: "idx_transactions_date" })
   @Column({
     type: DataType.DATE,
     field: "date_transaction",
@@ -90,6 +93,7 @@ export class Transaction extends Model {
   })
   declare orderMethodId: number;
 
+  @Index({ name: "idx_transactions_status_id" })
   @ForeignKey(() => Status)
   @Column({
     type: DataType.INTEGER,
@@ -179,6 +183,9 @@ export class Transaction extends Model {
 
   // Transaction Item
 
-  @HasMany(() => TransactionItem)
+  @HasMany(() => TransactionItem, {
+    foreignKey: "transaction_id",
+    as: "transactionItems",
+  })
   declare transactionItem: TransactionItem[];
 }

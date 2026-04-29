@@ -77,11 +77,14 @@ export class Size extends Model {
 
   // Cart
 
-  @HasMany(() => Cart)
-  declare cart: Cart;
+  @HasMany(() => Cart, { foreignKey: "size_id", as: "carts" })
+  declare cart: Cart[];
 
   // Product Size
 
-  @HasMany(() => ProductSize)
+  @HasMany(() => ProductSize, {
+    foreignKey: "size_id",
+    as: "productSizes",
+  })
   declare productSize: ProductSize[];
 }

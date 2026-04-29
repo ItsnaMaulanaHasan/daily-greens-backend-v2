@@ -6,6 +6,7 @@ import {
   ForeignKey,
   HasMany,
   HasOne,
+  Index,
   Model,
   Table,
 } from "sequelize-typescript";
@@ -46,6 +47,7 @@ export class User extends Model {
   })
   declare email: string;
 
+  @Index({ name: "idx_users_role" })
   @Column({
     type: DataType.STRING(255),
     defaultValue: "customer",
@@ -69,7 +71,7 @@ export class User extends Model {
   @Column({
     type: DataType.UUID,
     allowNull: true,
-    field: "Updated_by",
+    field: "updated_by",
   })
   declare updatedBy: string;
 
@@ -181,7 +183,11 @@ export class User extends Model {
 
   // Profile
 
-  @HasOne(() => Profile)
+  @HasOne(() => Profile, {
+    foreignKey: "user_id",
+    as: "profile",
+    onDelete: "CASCADE",
+  })
   declare profile: Profile;
 
   @HasMany(() => Profile, { foreignKey: "created_by", as: "profilesCreated" })
@@ -205,7 +211,7 @@ export class User extends Model {
 
   // Cart
 
-  @HasMany(() => Cart)
+  @HasMany(() => Cart, { foreignKey: "user_id", as: "carts" })
   declare cart: Cart[];
 
   @HasMany(() => Cart, {
@@ -248,7 +254,7 @@ export class User extends Model {
 
   // Transaction
 
-  @HasMany(() => Transaction)
+  @HasMany(() => Transaction, { foreignKey: "user_id", as: "transactions" })
   declare transaction: Transaction[];
 
   @HasMany(() => Transaction, {
@@ -291,7 +297,7 @@ export class User extends Model {
 
   // Password Reset
 
-  @HasMany(() => PasswordReset)
+  @HasMany(() => PasswordReset, { foreignKey: "user_id", as: "passwordResets" })
   declare passwordReset: PasswordReset[];
 
   // Self User (Users created/updated/deleted by this User)

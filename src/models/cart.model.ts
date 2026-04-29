@@ -4,6 +4,7 @@ import {
   DataType,
   Default,
   ForeignKey,
+  Index,
   Model,
   Table,
 } from "sequelize-typescript";
@@ -20,6 +21,12 @@ import { Variant } from "./variant.model";
   updatedAt: "updated_at",
   paranoid: true,
   deletedAt: "deleted_at",
+  indexes: [
+    {
+      name: "idx_carts_user_product",
+      fields: ["user_id", "product_id"],
+    },
+  ],
 })
 export class Cart extends Model {
   @Column({
@@ -29,6 +36,7 @@ export class Cart extends Model {
   @Default(uuidv4)
   declare id: string;
 
+  @Index({ name: "idx_carts_user_id" })
   @ForeignKey(() => User)
   @Column({
     type: DataType.UUID,
@@ -36,6 +44,7 @@ export class Cart extends Model {
   })
   declare userId: string;
 
+  @Index({ name: "idx_carts_product_id" })
   @ForeignKey(() => Product)
   @Column({
     type: DataType.UUID,
@@ -94,7 +103,10 @@ export class Cart extends Model {
 
   // relations
 
-  @BelongsTo(() => User, "user_id")
+  @BelongsTo(() => User, {
+    foreignKey: "user_id",
+    onDelete: "CASCADE",
+  })
   declare user: User;
 
   @BelongsTo(() => Product, "product_id")

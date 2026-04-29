@@ -70,5 +70,5 @@ export class Status extends Model {
   // Transaction
 
   @HasMany(() => Transaction)
-  declare transaction: Transaction;
+  declare transaction: Transaction[];
 }

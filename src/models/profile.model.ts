@@ -79,6 +79,7 @@ export class Profile extends Model {
     allowNull: true,
     field: "deleted_by",
   })
+  declare deletedBy: string;
 
   // relations
   @BelongsTo(() => User, "user_id")

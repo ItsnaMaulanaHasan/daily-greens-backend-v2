@@ -1,8 +1,10 @@
 import {
+  BelongsTo,
   Column,
   DataType,
   Default,
   ForeignKey,
+  Index,
   Model,
   Table,
 } from "sequelize-typescript";
@@ -26,6 +28,7 @@ export class TransactionItem extends Model {
   })
   declare id: number;
 
+  @Index({ name: "idx_trx_items_transaction_id" })
   @ForeignKey(() => Transaction)
   @Column({
     type: DataType.UUID,
@@ -33,6 +36,7 @@ export class TransactionItem extends Model {
   })
   declare transactionId: string;
 
+  @Index({ name: "idx_trx_items_product_id" })
   @ForeignKey(() => Product)
   @Column({
     type: DataType.UUID,
@@ -112,4 +116,24 @@ export class TransactionItem extends Model {
     field: "deleted_by",
   })
   declare deletedBy: string;
+
+  // relations
+
+  @BelongsTo(() => Transaction, {
+    foreignKey: "transaction_id",
+    onDelete: "CASCADE",
+  })
+  declare transaction: Transaction;
+
+  @BelongsTo(() => Product, "product_id")
+  declare product: Product;
+
+  @BelongsTo(() => User, "created_by")
+  declare creator: User;
+
+  @BelongsTo(() => User, "updated_by")
+  declare updater: User;
+
+  @BelongsTo(() => User, "deleted_by")
+  declare deleter: User;
 }

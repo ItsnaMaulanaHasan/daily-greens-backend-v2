@@ -45,7 +45,7 @@ export class PaymentMethod extends Model {
     allowNull: true,
     field: "created_by",
   })
-  declare createdBy: User;
+  declare createdBy: string;
 
   @ForeignKey(() => User)
   @Column({

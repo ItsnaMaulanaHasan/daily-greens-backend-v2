@@ -11,6 +11,14 @@ import { Variant } from "./variant.model";
 
 @Table({
   tableName: "product_variants",
+  timestamps: false,
+  indexes: [
+    {
+      name: "idx_pv_product_variant_unique",
+      unique: true,
+      fields: ["product_id", "variant_id"],
+    },
+  ],
 })
 export class ProductVariant extends Model {
   @Column({
@@ -36,7 +44,10 @@ export class ProductVariant extends Model {
 
   // relations
 
-  @BelongsTo(() => Product, "product_id")
+  @BelongsTo(() => Product, {
+    foreignKey: "product_id",
+    onDelete: "CASCADE",
+  })
   declare product: Product;
 
   @BelongsTo(() => Variant, "variant_id")

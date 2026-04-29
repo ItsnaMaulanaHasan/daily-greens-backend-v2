@@ -4,6 +4,7 @@ import {
   DataType,
   Default,
   ForeignKey,
+  Index,
   Model,
   Sequelize,
   Table,
@@ -24,6 +25,7 @@ export class PasswordReset extends Model {
   @Default(uuidv4)
   declare id: string;
 
+  @Index({ name: "idx_password_resets_user_id" })
   @ForeignKey(() => User)
   @Column({
     type: DataType.UUID,
@@ -31,6 +33,7 @@ export class PasswordReset extends Model {
   })
   declare userId: string;
 
+  @Index({ name: "idx_password_resets_token" })
   @Column({
     type: DataType.CHAR(12),
     field: "token_reset",
@@ -46,6 +49,9 @@ export class PasswordReset extends Model {
 
   // relations
 
-  @BelongsTo(() => User, "user_id")
+  @BelongsTo(() => User, {
+    foreignKey: "user_id",
+    onDelete: "CASCADE",
+  })
   declare user: User;
 }

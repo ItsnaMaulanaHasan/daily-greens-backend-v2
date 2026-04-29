@@ -10,7 +10,15 @@ import { Product } from "./product.model";
 import { Size } from "./size.model";
 
 @Table({
-  tableName: "product_categories",
+  tableName: "product_sizes",
+  timestamps: false,
+  indexes: [
+    {
+      name: "idx_ps_product_size_unique",
+      unique: true,
+      fields: ["product_id", "size_id"],
+    },
+  ],
 })
 export class ProductSize extends Model {
   @Column({
@@ -36,7 +44,10 @@ export class ProductSize extends Model {
 
   // relations
 
-  @BelongsTo(() => Product, "product_id")
+  @BelongsTo(() => Product, {
+    foreignKey: "product_id",
+    onDelete: "CASCADE",
+  })
   declare product: Product;
 
   @BelongsTo(() => Size, "size_id")

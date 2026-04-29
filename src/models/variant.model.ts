@@ -60,7 +60,7 @@ export class Variant extends Model {
   @Column({
     type: DataType.UUID,
     allowNull: true,
-    field: "deleted_by,",
+    field: "deleted_by",
   })
   declare deletedBy: string;
 
@@ -77,11 +77,14 @@ export class Variant extends Model {
 
   // Cart
 
-  @HasMany(() => Cart)
-  declare cart: Cart;
+  @HasMany(() => Cart, { foreignKey: "variant_id", as: "carts" })
+  declare cart: Cart[];
 
   // Product Variant
 
-  @HasMany(() => ProductVariant)
+  @HasMany(() => ProductVariant, {
+    foreignKey: "variant_id",
+    as: "productVariants",
+  })
   declare productVariant: ProductVariant[];
 }

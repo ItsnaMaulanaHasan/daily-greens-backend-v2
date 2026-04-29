@@ -21,7 +21,7 @@ import { TransactionItem } from "./transaction_item.model";
   tableName: "products",
   timestamps: true,
   createdAt: "created_at",
-  updatedAt: "updatedAt",
+  updatedAt: "updated_at",
   paranoid: true,
   deletedAt: "deleted_at",
 })
@@ -104,31 +104,46 @@ export class Product extends Model {
 
   // Cart
 
-  @HasMany(() => Cart)
-  declare cart: Cart;
+  @HasMany(() => Cart, { foreignKey: "product_id", as: "carts" })
+  declare cart: Cart[];
 
   // Product Category
 
-  @HasMany(() => ProductCategory)
+  @HasMany(() => ProductCategory, {
+    foreignKey: "product_id",
+    as: "productCategories",
+  })
   declare productCategory: ProductCategory[];
 
   // Product Image
 
-  @HasMany(() => ProductImage)
+  @HasMany(() => ProductImage, {
+    foreignKey: "product_id",
+    as: "productImages",
+  })
   declare productImage: ProductImage[];
 
   // Product Variant
 
-  @HasMany(() => ProductVariant)
+  @HasMany(() => ProductVariant, {
+    foreignKey: "product_id",
+    as: "productVariants",
+  })
   declare productVariant: ProductVariant[];
 
   // Product Size
 
-  @HasMany(() => ProductSize)
+  @HasMany(() => ProductSize, {
+    foreignKey: "product_id",
+    as: "productSizes",
+  })
   declare productSize: ProductSize[];
 
   // TransactionItem
 
-  @HasMany(() => TransactionItem)
+  @HasMany(() => TransactionItem, {
+    foreignKey: "product_id",
+    as: "transactionItems",
+  })
   declare transactionItem: TransactionItem[];
 }

@@ -11,6 +11,14 @@ import { Category } from "./category.model";
 
 @Table({
   tableName: "product_categories",
+  timestamps: false,
+  indexes: [
+    {
+      name: "idx_pc_product_category_unique",
+      unique: true,
+      fields: ["product_id", "category_id"],
+    },
+  ],
 })
 export class ProductCategory extends Model {
   @Column({
@@ -36,7 +44,10 @@ export class ProductCategory extends Model {
 
   // relations
 
-  @BelongsTo(() => Product, "product_id")
+  @BelongsTo(() => Product, {
+    foreignKey: "product_id",
+    onDelete: "CASCADE",
+  })
   declare product: Product;
 
   @BelongsTo(() => Category, "category_id")
